@@ -12,7 +12,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Dashboard FIC 7 - Biznet GioCloud x Code with Bahri</h1>
+                <h1>Dashboard FIC 7 - Biznet GioCloud x Code with Bahri  xxx</h1>
                
             </div>
             <div class="row">
