@@ -13,7 +13,7 @@
         <section class="section">
             <div class="section-header">
                 <h1>Dashboard FIC 7 - Biznet GioCloud x Code with Bahri</h1>
-                <h2>Windy Sabtami 2</h2>
+               
             </div>
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-6 col-12">
