@@ -11,7 +11,7 @@ class AuthServiceProvider extends ServiceProvider
 {
     public static $permissions = [
         'dashboard' => [
-            'Superadmin', 'admin',
+            'Superadmin', 'admin', 
         ],
         'user' => ['admin'],
         'payment-update' => ['Superadmin'],

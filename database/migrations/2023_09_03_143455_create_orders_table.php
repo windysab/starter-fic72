@@ -14,10 +14,18 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('selerr_id')->unsigned();
-            $table->string('number', 16);
-            
+            $table->bigInteger('seller_id')->unsigned();
+            $table->string('number',16);
+            $table->decimal('total_price',10,2);
+            $table->enum('payment_status', ['1', '2', '3']);
+            $table->string('payment_url')->nullable();
+            $table->text('delivery_address')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id', 'userid_foreign')->references('id')->on('users');
+            $table->foreign('seller_id', 'sellerid_foreign')->references('id')->on('users');
+            
+
         });
     }
 

@@ -6,7 +6,9 @@ namespace Database\Seeders;
 use App\Models\Category;
 use Illuminate\Database\Seeder;
 use Database\Seeders\UserSeeder;
+use Database\Seeders\OrderSeeder;
 use Database\Seeders\ProductSeeder;
+use Database\Seeders\OrderItemSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -24,8 +26,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             ProductSeeder::class,
-            // OrderSeeder::class,
-            // OrderItemSeeder::class
+            OrderSeeder::class,
+            OrderItemSeeder::class
         ]);
     }
 }
