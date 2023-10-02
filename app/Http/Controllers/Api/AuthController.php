@@ -42,6 +42,26 @@ class AuthController extends Controller
     public function register(Request $request)
     {
 
+        // $request->validate([
+        //     'name' => 'required|string',
+        //     'email' => 'required|string|email|unique:users,email',
+        //     'password' => 'required'
+        // ]);
+
+        // $user = User::create([
+        //     'name' => $request->name,
+        //     'role' => 'user',
+        //     'email' => $request->email,
+        //     'password' => Hash::make($request->password),
+        // ]);
+
+        // $token = $user->createToken('api-token')->plainTextToken;
+        // return response()->json([
+        //     'jwt-token' => $token,
+        //     'user' => new UserResource($user),
+
+        // ]);
+
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|email|unique:users,email',
@@ -50,7 +70,7 @@ class AuthController extends Controller
 
         $user = User::create([
             'name' => $request->name,
-            'role' => 'user',
+            'role' =>  'admin',
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
@@ -58,7 +78,7 @@ class AuthController extends Controller
         $token = $user->createToken('api-token')->plainTextToken;
         return response()->json([
             'jwt-token' => $token,
-            'user' => new UserResource($user),
+            'admin-' => new UserResource($user),
 
         ]);
     }

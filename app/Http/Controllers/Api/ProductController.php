@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
+
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -12,9 +13,14 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return ProductResource::collection(Product::paginate(10));
+        $categoryId = $request->input('category_id');
+        $products = Product::when(
+            $categoryId,
+            fn ($query, $categoryId) => $query->categoryId($categoryId)
+        )->paginate()->load('category');
+        return ProductResource::collection($products);
     }
 
     /**
