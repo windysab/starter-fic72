@@ -3,9 +3,8 @@
 namespace App\Services\Midtrans;
 
 use App\Models\Order;
-use Midtrans\Notification;
 use App\Services\Midtrans\Midtrans;
-
+use Midtrans\Notification;
 
 class CallbackService extends Midtrans
 {

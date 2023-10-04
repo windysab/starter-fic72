@@ -2,9 +2,10 @@
 
 namespace App\Services\Midtrans;
 
+use Midtrans\Snap;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Collection;
-use Midtrans\Snap;
+// use Midtrans\Snap;
 
 class CreatePaymentUrlService extends Midtrans
 {
