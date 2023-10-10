@@ -13,13 +13,20 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except(['index', 'show']);
+        // $this->authorizeResource(Product::class, 'product');
+    }
     public function index(Request $request)
     {
         $categoryId = $request->input('category_id');
-        $products = Product::when(
-            $categoryId,
-            fn ($query, $categoryId) => $query->categoryId($categoryId)
-        )->paginate()->load('category');
+        $userId = $request->input('user_id');
+        $products = Product::where('category_id', 'LIKE', '%' . $categoryId . '%')
+            ->where('user_id', 'LIKE', '%' . $userId . '%')
+            ->orderBy('created_at', 'desc')
+            ->paginate()->load('category', 'user');
         return ProductResource::collection($products);
     }
 
@@ -36,7 +43,7 @@ class ProductController extends Controller
                 'image_url' => 'required',
                 'category_id' => 'required',
             ]),
-            'user_id' => 1,
+            'user_id' => $request->user()->id,
         ]);
 
         return $product;

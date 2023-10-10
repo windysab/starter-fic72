@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Services\Midtrans\CreatePaymentUrlService;
-
-
-
-
+use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
@@ -29,18 +25,16 @@ class OrderController extends Controller
             OrderItem::create([
                 'order_id' => $order->id,
                 'product_id' => $item['id'],
-                'quantity' => $item['quantity'],
+                'quantity' => $item['quantity']
             ]);
         }
 
-        //manggil service midtrans untuk dapatin payment url
         $midtrans = new CreatePaymentUrlService();
         $paymentUrl = $midtrans->getPaymentUrl($order->load('user', 'orderItems'));
 
         $order->update([
             'payment_url' => $paymentUrl
         ]);
-
         return response()->json([
             'data' => $order
         ]);

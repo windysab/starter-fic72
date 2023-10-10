@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\BannerController;
 use App\Http\Controllers\Api\UploadController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\CallbackController;
@@ -34,4 +35,5 @@ Route::post('orders', [OrderController::class, 'order'])->middleware('auth:sanct
 Route::post('midtrans/notification/handling', [CallbackController::class, 'callback']);
 
 Route::apiResource('categories', CategoryController::class);
-Route::apiResource('products', ProductController::class);
+Route::apiResource('products', ProductController::class)->middleware('auth:sanctum');
+Route::apiResource('banners', BannerController::class);
