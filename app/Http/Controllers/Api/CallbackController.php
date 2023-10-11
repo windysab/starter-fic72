@@ -2,15 +2,34 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\User;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\Midtrans\CallbackService;
+use Kreait\Firebase\Messaging\CloudMessage;
+use Kreait\Firebase\Messaging\Notification;
 
 
 
 class CallbackController extends Controller
 {
+
+    public function sendNofiticationToUser($userId, $message)
+    {
+        $user = User::find($userId);
+        $token = $user->fcm_token;
+
+
+        $messaging = app('firebase.messaging');
+        $notification = Notification::create('Order Terbayar', $message);
+
+        $message = CloudMessage::withTarget('token', $token)
+            ->withNotification($notification);
+
+        $messaging->send($message);
+    }
+    
     public function callback()
     {
         $callback = new CallbackService;
@@ -36,6 +55,8 @@ class CallbackController extends Controller
                 'payment_status' => 3,
             ]);
         }
+
+        $this->sendNofiticationToUser($order->user_id, $notification->status_message);
 
         return response()
             ->json([

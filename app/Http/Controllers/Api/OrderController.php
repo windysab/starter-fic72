@@ -2,14 +2,34 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderItem;
-use App\Services\Midtrans\CreatePaymentUrlService;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Kreait\Firebase\Messaging\CloudMessage;
+use Kreait\Firebase\Messaging\Notification;
+use App\Services\Midtrans\CreatePaymentUrlService;
+// use Kreait\Firebase\Messaging\Notification;
+
 
 class OrderController extends Controller
 {
+    public function sendNofiticationToUser($userId, $message)
+    {
+        $user = User::find($userId);
+        $token = $user->fcm_token;
+
+
+        $messaging = app('firebase.messaging');
+        $notification = Notification::create('Order Masuk', $message);
+
+        $message = CloudMessage::withTarget('token', $token)
+            ->withNotification($notification);
+
+        $messaging->send($message);
+    }
+
     public function order(Request $request)
     {
         $order = Order::create([
@@ -31,7 +51,7 @@ class OrderController extends Controller
 
         $midtrans = new CreatePaymentUrlService();
         $paymentUrl = $midtrans->getPaymentUrl($order->load('user', 'orderItems'));
-
+        $this->sendNofiticationToUser($request->user()->id, 'Order' .$request->total_price.'Masuk, Menunggu Pembayaran');
         $order->update([
             'payment_url' => $paymentUrl
         ]);
